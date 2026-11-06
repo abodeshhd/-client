@@ -7,10 +7,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: unzip -q hvh-client.zip
+      - name: Unzip project
+        run: unzip -q hvh-client.zip
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 21
       - uses: gradle/actions/setup-gradle@v4
         with:
+          gradle-version: 9.2.0
+      - name: Build
+        run: cd hvh-client && gradle build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hvh-client
+          path: hvh-client/build/libs/*.jar
